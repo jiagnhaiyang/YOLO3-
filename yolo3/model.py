@@ -16,7 +16,7 @@ from yolo3.utils import compose
 
 @wraps(Conv2D)
 def DarknetConv2D(*args, **kwargs):
-    """Wrapper to set Darknet parameters for Convolution2D."""
+    """Wrapper to set Darknet parameters for Convolution2D.""" #用于设置Convolution2D的Darknet参数的包装器
     darknet_conv_kwargs = {'kernel_regularizer': l2(5e-4)}
     darknet_conv_kwargs['padding'] = 'valid' if kwargs.get('strides')==(2,2) else 'same'
     darknet_conv_kwargs.update(kwargs)
@@ -33,13 +33,14 @@ def DarknetConv2D_BN_Leaky(*args, **kwargs):
 
 def resblock_body(x, num_filters, num_blocks):
     '''A series of resblocks starting with a downsampling Convolution2D'''
-    # Darknet uses left and top padding instead of 'same' mode
+    # Darknet uses left and top padding instead of 'same' mode DARKNET每块之间，使用了，（1，0，1，0）的PADDING层
+    #Darknet使用的是左边添加padding和上添加padding，而不是“same”模式
     x = ZeroPadding2D(((1,0),(1,0)))(x)
     x = DarknetConv2D_BN_Leaky(num_filters, (3,3), strides=(2,2))(x)
     for i in range(num_blocks):
         y = compose(
-                DarknetConv2D_BN_Leaky(num_filters//2, (1,1)),
-                DarknetConv2D_BN_Leaky(num_filters, (3,3)))(x)
+                DarknetConv2D_BN_Leaky(num_filters//2, (1,1)),  #将特征图减少一半，卷积核是1×1
+                DarknetConv2D_BN_Leaky(num_filters, (3,3)))(x)  #将特征图再变回原来的个数，卷积核是3×3
         x = Add()([x,y])
     return x
 
@@ -69,7 +70,7 @@ def make_last_layers(x, num_filters, out_filters):
 
 def yolo_body(inputs, num_anchors, num_classes):
     """Create YOLO_V3 model CNN body in Keras."""
-    darknet = Model(inputs, darknet_body(inputs))
+    darknet = Model(inputs, darknet_body(inputs))  #darket网络构建完成
     x, y1 = make_last_layers(darknet.output, 512, num_anchors*(num_classes+5))
 
     x = compose(

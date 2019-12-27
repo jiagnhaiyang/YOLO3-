@@ -7,7 +7,7 @@ import numpy as np
 from matplotlib.colors import rgb_to_hsv, hsv_to_rgb
 
 def compose(*funcs):
-    """Compose arbitrarily many functions, evaluated left to right.
+    """Compose arbitrarily many functions, evaluated left to right.任意多个组合函数，从左到右求值
 
     Reference: https://mathieularose.com/function-composition-in-python/
     """
