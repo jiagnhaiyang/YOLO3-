@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?><annotation>
+  <folder>108MSDCF</folder>
+  <filename>DSC00068</filename>
+  <path>E:\tytd\Drone-pictures\Cracked-picture\108MSDCF\DSC00068.jpg</path>
+  <source>
+    <database>Unknown</database>
+  </source>
+  <size>
+    <width>767</width>
+    <height>512</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>crack</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>281</xmin>
+      <ymin>158</ymin>
+      <xmax>384</xmax>
+      <ymax>189</ymax>
+    </bndbox>
+  </object>
+</annotation>
